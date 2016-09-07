@@ -121,7 +121,7 @@ public class BinarySearchTree
 							{
 									root=null;
 									isEmpty=true;
-									
+									return;
 							}//end of if stmt
 							
 							else//if the node to be deleted is other than root node 
@@ -131,13 +131,16 @@ public class BinarySearchTree
 									if(p.data>x.data)//if the current node is having lesser value than its parent than set parent's left child ptr null;
 									{
 										p.left=null;
+										return;
 									}//end of if stmt
 									
 									if(p.data<x.data)//if the current node is having greater value than its parent tham set parent's right child ptr null;
 									{
 										p.right=null;
+										return;
 									}//end of if stmt
 									x=null;//deleting the node pointed by x
+									
 									
 									
 							}//end of else stmt
@@ -150,7 +153,7 @@ public class BinarySearchTree
 						getmin(x.right,x);//getting the smallest node in the right subtree
 						x.data=temp.data;//getting the temp value into current node and deleting the temp node from tree
 						temp=null;
-							
+						return;
 					}//end of if stmt
 					
 					
@@ -160,6 +163,7 @@ public class BinarySearchTree
 						getmax(x.left,x);//getting the biggest node from the left subtree 
 						x.data=temp.data;//getting the temp value into current node and deleting the temp node from the tree
 						temp=null;
+							return;
 							
 						
 						
@@ -171,7 +175,7 @@ public class BinarySearchTree
 						getmin(x.right,x);//getting the smallest node in the right subtree
 						x.data=temp.data;//getting the temp value into current node and deleting the temp node from tree
 						temp=null;
-						
+						return;
 					}//end of if stmt
 					
 					
@@ -303,8 +307,18 @@ public class BinarySearchTree
 		
 	}//end of preorder method(.)
 	
-	void display(int value)
+	void display(int value)//This method is called by the main meTHod() , this method makes call to either preOrder(.),inOrder(.) or postOrder(.) method depending upon the choice of user 
 	{
+		if(!isExisting)
+		{
+			System.out.println("Please create a tree first!");
+			return;
+		}
+		if(isEmpty)
+		{
+			System.out.println("No tree to display!");
+			return;
+		}
 		if(value==4)
 		{
 			preOrder(root);
@@ -323,7 +337,7 @@ public class BinarySearchTree
 	}
 
 	
-	void countAll()
+	void countAll()//this method is called by main method() to count all the nodes of tree, this method just evaluates whether the tree is existing and is not empty so that we can count the nodes.if the tree has nodes then call given to the count(.) method
 	{
 		if(isExisting&&!isEmpty)
 		{
@@ -333,10 +347,10 @@ public class BinarySearchTree
 		{
 			System.out.println("Tree is Empty!");
 		}
-	}
+	}//end of countAll() method
 	
 	
-	int count(BstNode x)
+	int count(BstNode x)//counts all the nodes present in the tree(recursive method)
 	{
 		int c=0;
 		if(x==null)
@@ -347,15 +361,24 @@ public class BinarySearchTree
 		c=c+count(x.right);
 		return c+1;
 		
-	}
+	}//end of count(.) method
 	
-	void emptyTree()
+	void emptyTree()//completely vanish the existence of the current tree
 	{
-		root.left=null;
-		root.right=null;
-		root=null;
-		isEmpty=true;
-		isExisting=false;
+		if (isExisting&&!isEmpty)
+		{
+			root.left = null;
+			root.right = null;
+			root = null;
+			isEmpty = true;
+			isExisting = false;
+		}//end of if stmt
 		
-	}
+		else
+		{
+			System.out.println("Pls create a tree first!");
+		}//end of else stmt
+		
+	}//end of emptyTree method()
+	
 }//end of class BinarySearchTree
