@@ -147,9 +147,9 @@ public class BinarySearchTree
 					if(x.left==null&&x.right!=null)//if only right child is existing
 					{
 							//Start
-						getmin(x.right,x);
-						x.data=temp.data;
-							
+						getmin(x.right,x);//getting the smallest node in the right subtree
+						x.data=temp.data;//getting the temp value into current node and deleting the temp node from tree
+						temp=null;
 							
 					}//end of if stmt
 					
@@ -157,8 +157,9 @@ public class BinarySearchTree
 					if(x.right==null&&x.left!=null)//if only left child is existing
 					{
 							//start 
-						getmax(x.left,x);
-						x.data=temp.data;
+						getmax(x.left,x);//getting the biggest node from the left subtree 
+						x.data=temp.data;//getting the temp value into current node and deleting the temp node from the tree
+						temp=null;
 							
 						
 						
@@ -167,6 +168,9 @@ public class BinarySearchTree
 					if(x.right!=null&&x.left!=null)//if both the child exists
 					{
 							//start
+						getmin(x.right,x);//getting the smallest node in the right subtree
+						x.data=temp.data;//getting the temp value into current node and deleting the temp node from tree
+						temp=null;
 						
 					}//end of if stmt
 					
@@ -212,16 +216,22 @@ public class BinarySearchTree
 	void getmin(BstNode z,BstNode tz)
 	{
 	
-		
+		BstNode v=tz;
 		while(z.left!=null)//traverse to the least valued node 
 		{
 			tz=z;
 			z=z.left; 
 		}//end of while loop
-		
+		if(tz==v)
+		{
+			temp=z;
+			tz.right=null;
+			return;
+		}//end of if stmt
 		temp=z;//storing the value of z in global variable temp
 		tz.left=null;//delete the left child ptr of parent
-		z=null;		//deleting from the lead node
+		
+		
 		
 	}//end of getmin(.) method
 	
@@ -229,12 +239,19 @@ public class BinarySearchTree
 	void getmax(BstNode z,BstNode tz)
 	{
 		
-		
+		BstNode v=tz;
 		while(z.right!=null)//traverse to the least valued node 
 		{
 			tz=z;
 			z=z.right; 
 		}//end of while loop
+		
+		if(tz==v)
+		{
+			temp=z;
+			tz.left=null;
+			return;
+		}//end of if stmt
 		
 		temp=z;//storing the value of z in global variable temp
 		tz.right=null;//delete the left child ptr of parent
@@ -242,10 +259,103 @@ public class BinarySearchTree
 		
 	}//end of getmax(.) method
 	
+	void preOrder(BstNode x)
+	{
+		if(x==null)
+		{
+			return;
+		}//end of if stmt
+		
+		
+		System.out.println(x.data);
+		preOrder(x.left);
+		preOrder(x.right);
+		
+	}//end of preOrder method(.)
 	
+	void inOrder(BstNode x)
+	{
+		if(x==null)
+		{
+			return;
+		}//end of if stmt
+		
+		
+		inOrder(x.left);
+		System.out.println(x.data);
+		inOrder(x.right);
+		
+		
+	}//end of postOrder method(.)
 	
+	void postOrder(BstNode x)
+
+	{
+		if(x==null)
+		{
+			return;
+		}//end of if stmt
+		
+		postOrder(x.left);
+		postOrder(x.right);
+		System.out.println(x.data);
+		
+		
+	}//end of preorder method(.)
 	
-	
+	void display(int value)
+	{
+		if(value==4)
+		{
+			preOrder(root);
+		}
+		
+		if(value==5)
+		{
+			inOrder(root);
+			
+		}
+		
+		if(value==6)
+		{
+			postOrder(root);
+		}
+	}
 
 	
+	void countAll()
+	{
+		if(isExisting&&!isEmpty)
+		{
+			System.out.println(count(root));
+		}
+		else
+		{
+			System.out.println("Tree is Empty!");
+		}
+	}
+	
+	
+	int count(BstNode x)
+	{
+		int c=0;
+		if(x==null)
+		{
+			return c;
+		}
+		c=c+count(x.left);
+		c=c+count(x.right);
+		return c+1;
+		
+	}
+	
+	void emptyTree()
+	{
+		root.left=null;
+		root.right=null;
+		root=null;
+		isEmpty=true;
+		isExisting=false;
+		
+	}
 }//end of class BinarySearchTree
